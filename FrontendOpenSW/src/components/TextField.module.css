@@ -1,0 +1,120 @@
+/* TextField.module.css */
+
+.textFieldContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: 4px 4px 0 0;
+}
+
+.textField {
+  border: 1px solid #79747e;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 56px;
+  align-items: flex-start;
+  position: relative;
+  border-radius: 4px;
+  width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.textFieldContainer:focus-within .textField {
+  border-color: #6750a4;
+  border-width: 2px;
+  box-shadow: 0 0 0 3px rgba(103, 80, 164, 0.12);
+}
+
+.stateLayer {
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 0 0;
+  gap: 4px;
+  align-items: flex-start;
+  min-height: 1px;
+  min-width: 1px;
+  padding-left: 16px;
+  padding-right: 0;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  position: relative;
+  border-radius: 4px 4px 0 0;
+  width: 100%;
+}
+
+.content {
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  height: 48px;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 1px;
+  min-width: 1px;
+  padding: 4px 0;
+  position: relative;
+}
+
+.inputTextContainer {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.input {
+  flex: 1 0 0;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #1d1b20;
+  letter-spacing: 0.5px;
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  padding: 0;
+  cursor: text;
+  -moz-appearance: textfield;
+}
+
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.input::placeholder {
+  color: #1d1b20;
+  opacity: 0.6;
+}
+
+.labelContainer {
+  position: absolute;
+  background: #fef7ff;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  left: -4px;
+  padding: 0 4px;
+  top: -12px;
+}
+
+.label {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: #49454f;
+  letter-spacing: 0.4px;
+  position: relative;
+}
+

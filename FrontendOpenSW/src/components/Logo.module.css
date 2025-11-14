@@ -1,0 +1,51 @@
+/* Logo.module.css */
+
+/* <Link> 태그에 적용될 부모 컨테이너 */
+.logoContainer {
+  position: relative;
+  /* (43px + 106px) = 149px */
+  width: 149px; 
+  height: 34px;
+  display: block; /* Link 태그가 영역을 갖도록 */
+  text-decoration: none; /* Link 태그의 밑줄 제거 */
+}
+
+/* 첫번째 검은 사각형 */
+.shape1 {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 31px;
+  height: 13px;
+  background: #000;
+  border-radius: 5px 5px 5px 0; /* 가져오신 스타일 */
+}
+
+/* 두번째 검은 사각형 */
+.shape2 {
+  position: absolute;
+  left: 0px;
+  top: 21px; /* 첫번째 HTML에서 확인한 값 */
+  width: 31px;
+  height: 13px;
+  background: #000;
+  border-radius: 5px 5px 5px 0; /* 가져오신 스타일 */
+}
+
+/* 텍스트 */
+.text {
+  position: absolute;
+  left: 43px; /* 첫번째 HTML에서 확인한 값 */
+  top: 0px;
+  width: 106px;
+  height: 34px;
+  
+  /* 가져오신 스타일 */
+  color: #000;
+  text-align: center;
+  font-family: 'Goldman', sans-serif;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
