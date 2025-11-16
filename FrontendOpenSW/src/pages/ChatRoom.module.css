@@ -30,18 +30,27 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  align-items: flex-end; /* 메시지를 오른쪽 정렬 */
 }
 
 .message {
-  background: #e8def8;
   border-radius: 30px;
   padding: 20px 24px;
   max-width: 500px;
   min-height: 68px;
   display: flex;
   align-items: center;
+}
+
+.messageOwn {
+  background: #e8def8; /* 내 메시지: 연한 보라색 */
+  align-self: flex-end; /* 오른쪽 정렬 */
   justify-content: flex-end;
+}
+
+.messageOther {
+  background: #c7a3ff; /* 다른 사람 메시지: 진한 보라색 */
+  align-self: flex-start; /* 왼쪽 정렬 */
+  justify-content: flex-start;
 }
 
 .messageContent {
@@ -51,10 +60,17 @@
   line-height: 24px;
   letter-spacing: 0.15px;
   color: #000000;
-  text-align: right;
   font-variation-settings: 'wdth' 100;
   word-wrap: break-word;
   word-break: break-word;
+}
+
+.messageOwn .messageContent {
+  text-align: right;
+}
+
+.messageOther .messageContent {
+  text-align: left;
 }
 
 .emptyState {

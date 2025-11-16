@@ -53,9 +53,13 @@ function useChat(entryCode, nickname) {
         setIsConnected(true);
       };
 
-      // 메시지 수신 리스너
+      // 메시지 수신 리스너 (다른 사람이 보낸 메시지)
       const handleMessage = (data) => {
-        setMessages((prev) => [...prev, data]);
+        const message = {
+          content: data.content || data.message || data,
+          isOwn: false, // 소켓에서 받은 메시지는 다른 사람이 보낸 것
+        };
+        setMessages((prev) => [...prev, message]);
       };
 
       // 시간 업데이트 리스너
@@ -106,19 +110,20 @@ function useChat(entryCode, nickname) {
 
   // 메시지 전송
   const sendMessage = useCallback((content) => {
+    // 내가 보낸 메시지는 즉시 로컬에 추가 (isOwn: true)
+    const ownMessage = {
+      content: content,
+      isOwn: true, // 내가 보낸 메시지
+    };
+    setMessages((prev) => [...prev, ownMessage]);
+
     if (socketService.isConnected()) {
       socketService.sendMessage(content);
     } else {
-      // UI 확인용: 소켓 연결이 안 되어 있어도 메시지를 로컬에 추가
+      // UI 확인용: 소켓 연결이 안 되어 있어도 메시지는 이미 추가됨
       console.log("소켓 연결 없음 - 로컬 메시지 추가 (UI 확인용)");
-      const localMessage = {
-        content: content,
-        nickname: nickname || "사용자",
-        timestamp: new Date().toISOString(),
-      };
-      setMessages((prev) => [...prev, localMessage]);
     }
-  }, [nickname]);
+  }, []);
 
   return {
     messages,

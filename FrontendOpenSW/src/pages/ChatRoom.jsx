@@ -55,11 +55,19 @@ function ChatRoom() {
             </div>
           ) : (
             <div className={styles.messagesList}>
-              {messages.map((message, index) => (
-                <div key={index} className={styles.message}>
-                  <span className={styles.messageContent}>{message.content}</span>
-                </div>
-              ))}
+              {messages.map((message, index) => {
+                const isOwnMessage = message.isOwn === true;
+                return (
+                  <div
+                    key={index}
+                    className={`${styles.message} ${
+                      isOwnMessage ? styles.messageOwn : styles.messageOther
+                    }`}
+                  >
+                    <span className={styles.messageContent}>{message.content}</span>
+                  </div>
+                );
+              })}
               <div ref={messagesEndRef} />
             </div>
           )}
