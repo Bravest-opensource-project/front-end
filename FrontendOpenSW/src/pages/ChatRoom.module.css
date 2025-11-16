@@ -1,0 +1,70 @@
+/* ChatRoom.module.css */
+
+.chatRoomContainer {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 200px);
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.timerBarWrapper {
+  /* Figma: 로고 하단(92px)에서 TimerBar(151px)까지 59px
+     하지만 Layout의 logoContainer margin-bottom이 100px이므로
+     실제로는 100px 떨어져 있음. 따라서 59px - 100px = -41px로 조정 */
+  margin-top: -41px;
+  margin-bottom: 20px;
+}
+
+.messagesContainer {
+  flex: 1;
+  overflow-y: auto;
+  margin-top: 20px;
+  margin-bottom: 100px; /* ChatInput 공간 확보 */
+  padding: 20px 0;
+}
+
+.messagesList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-end; /* 메시지를 오른쪽 정렬 */
+}
+
+.message {
+  background: #e8def8;
+  border-radius: 30px;
+  padding: 20px 24px;
+  max-width: 500px;
+  min-height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.messageContent {
+  font-family: 'Roboto', 'Noto Sans KR', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  color: #000000;
+  text-align: right;
+  font-variation-settings: 'wdth' 100;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #49454f;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+}
+
+

@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
 import TextField from "../components/TextField";
 import styles from "./JoinChatRoom.module.css";
 
 function JoinChatRoom() {
+  const navigate = useNavigate();
   const [entryCode, setEntryCode] = useState("");
   const [nickname, setNickname] = useState("");
 
@@ -14,37 +16,32 @@ function JoinChatRoom() {
       return;
     }
 
-    // TODO: 백엔드 API 연동
-    try {
-      // const response = await fetch('/api/join-chat', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({
-      //     entryCode: entryCode.trim(),
-      //     nickname: nickname.trim(),
-      //   }),
-      // });
-      // 
-      // if (!response.ok) {
-      //   throw new Error('채팅방 참가에 실패했습니다.');
-      // }
-      // 
-      // const data = await response.json();
-      // // 성공 시 처리 (예: 채팅방으로 이동)
-      // console.log('채팅방 참가 성공:', data);
+    // UI 확인용: 백엔드 API 호출 없이 바로 채팅방으로 이동
+    navigate(`/chat-room?code=${encodeURIComponent(entryCode.trim())}&nickname=${encodeURIComponent(nickname.trim())}`);
 
-      // 임시로 콘솔에 출력
-      console.log("제출 데이터:", {
-        entryCode: entryCode.trim(),
-        nickname: nickname.trim(),
-      });
-      alert(`입장 코드: ${entryCode}\n닉네임: ${nickname}\n\n(백엔드 연동 준비됨)`);
-    } catch (error) {
-      console.error("채팅방 참가 오류:", error);
-      alert("채팅방 참가에 실패했습니다. 다시 시도해주세요.");
-    }
+    // TODO: 백엔드 연동 시 아래 코드 사용
+    // try {
+    //   const response = await fetch("/api/join-chat", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       entryCode: entryCode.trim(),
+    //       nickname: nickname.trim(),
+    //     }),
+    //   });
+
+    //   if (!response.ok) {
+    //     throw new Error("채팅방 참가에 실패했습니다.");
+    //   }
+
+    //   const data = await response.json();
+    //   navigate(`/chat-room?code=${encodeURIComponent(entryCode.trim())}&nickname=${encodeURIComponent(nickname.trim())}`);
+    // } catch (error) {
+    //   console.error("채팅방 참가 오류:", error);
+    //   alert(error.message || "채팅방 참가에 실패했습니다. 다시 시도해주세요.");
+    // }
   };
 
   return (
