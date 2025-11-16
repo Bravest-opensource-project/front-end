@@ -1,4 +1,4 @@
-/* CreateChatRoom.module.css */
+/* JoinChatRoom.module.css */
 
 .form {
   display: flex;
@@ -33,14 +33,5 @@
 
 .submitButton:active {
   background: #b39ddb;
-}
-
-.submitButton:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.submitButton:disabled:hover {
-  background: #e8def8;
 }
 

@@ -9,22 +9,52 @@ function CreateChatRoom() {
   const [validityPeriod, setValidityPeriod] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const [chatRoomCode, setChatRoomCode] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const generateChatRoomCode = () => {
-    // 임시로 랜덤 코드 생성 (나중에 API 연동)
-    const code = Math.random().toString(36).substring(2, 10).toUpperCase();
-    return code;
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!description.trim() || !validityPeriod.trim()) {
       alert("모든 필드를 입력해주세요.");
       return;
     }
-    const code = generateChatRoomCode();
-    setChatRoomCode(code);
-    setShowPopup(true);
+
+    setIsLoading(true);
+
+    try {
+      // TODO: 백엔드 API 엔드포인트를 실제 URL로 변경하세요
+      const response = await fetch("/api/chat-rooms", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          description: description.trim(),
+          validityPeriod: parseInt(validityPeriod.trim(), 10), // 분 단위
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("채팅방 생성에 실패했습니다.");
+      }
+
+      const data = await response.json();
+      
+      // 백엔드에서 입장코드를 받아옴
+      // 응답 형식 예시: { entryCode: "ABC123", ... }
+      const entryCode = data.entryCode || data.code || data.chatRoomCode;
+      
+      if (!entryCode) {
+        throw new Error("입장코드를 받지 못했습니다.");
+      }
+
+      setChatRoomCode(entryCode);
+      setShowPopup(true);
+    } catch (error) {
+      console.error("채팅방 생성 오류:", error);
+      alert(error.message || "채팅방 생성에 실패했습니다. 다시 시도해주세요.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -50,8 +80,12 @@ function CreateChatRoom() {
             />
           </div>
 
-          <button type="submit" className={styles.submitButton}>
-            제출
+          <button 
+            type="submit" 
+            className={styles.submitButton}
+            disabled={isLoading}
+          >
+            {isLoading ? "생성 중..." : "제출"}
           </button>
         </form>
       </Layout>
