@@ -1,0 +1,21 @@
+/* Layout.module.css */
+
+.container {
+  min-height: 100vh;
+  background: white;
+  position: relative;
+  padding-bottom: 100px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 58px;
+  position: relative;
+}
+
+.logoContainer {
+  margin-bottom: 100px;
+}
+

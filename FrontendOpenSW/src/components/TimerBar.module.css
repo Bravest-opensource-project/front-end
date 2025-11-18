@@ -1,0 +1,66 @@
+/* TimerBar.module.css */
+
+.timerBarContainer {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  width: 354px;
+  margin: 0 auto;
+  margin-top: 0; /* ChatRoom에서 직접 위치 조정 */
+}
+
+.timerBar {
+  display: flex;
+  flex: 1 0 0;
+  align-items: center;
+  height: 16px;
+  position: relative;
+  width: 100%;
+}
+
+.activeTrack {
+  background: #6200ff;
+  height: 16px;
+  border-radius: 16px 2px 2px 16px;
+  transition: width 1s linear;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 0;
+}
+
+.handle {
+  background: #6200ff;
+  height: 44px;
+  width: 4px;
+  border-radius: 2px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  transition: left 1s linear;
+}
+
+.inactiveTrack {
+  background: #e8def8;
+  flex: 1 0 0;
+  min-height: 1px;
+  min-width: 1px;
+  height: 16px;
+  border-radius: 2px 16px 16px 2px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 4px;
+  z-index: 0;
+}
+
+.trackStop {
+  width: 4px;
+  height: 4px;
+  background: #4a4459;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+

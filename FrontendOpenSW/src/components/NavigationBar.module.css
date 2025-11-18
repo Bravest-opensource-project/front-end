@@ -1,0 +1,99 @@
+/* NavigationBar.module.css */
+
+.navigationBar {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  border-radius: 80px;
+  width: 352px;
+  height: 80px;
+  justify-content: space-around;
+}
+
+.navItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 112px;
+  padding: 12px 0 16px 0;
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+}
+
+.iconContainer {
+  height: 32px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 100px;
+  width: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navItem.active .iconContainer {
+  background: #e8def8;
+}
+
+.stateLayer {
+  position: absolute;
+  height: 32px;
+  left: 50%;
+  overflow: hidden;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  position: absolute;
+  left: 50%;
+  overflow: hidden;
+  width: 24px;
+  height: 24px;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon svg {
+  width: 24px;
+  height: 24px;
+  color: #4a4459;
+}
+
+.navText {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  justify-content: center;
+  position: relative;
+  color: #1d1b20;
+  text-align: center;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  font-variation-settings: 'wdth' 100;
+}
+
+.navItem.active .navText {
+  font-weight: 600;
+  color: #49454f;
+}
+

@@ -1,0 +1,253 @@
+/* ChatInput.module.css */
+
+.chatInputContainer {
+  position: fixed;
+  bottom: 100px; /* 네비게이션 바 위 */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 24px; /* Figma: 메뉴 버튼(362px)과 입력 필드(442px) 사이 간격: 442 - 362 - 56 = 24px */
+  align-items: center;
+  width: auto; /* 메뉴 버튼 + 간격 + 입력 필드 너비에 맞춤 */
+  max-width: calc(100% - 40px);
+}
+
+.menuWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.menu {
+  position: absolute;
+  bottom: calc(100% + 8px); /* 메뉴 버튼 위에 배치 */
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 1000;
+  animation: slideUp 0.2s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.menuItem {
+  background: #1d192b;
+  border: none;
+  border-radius: 28px;
+  height: 56px;
+  padding: 16px 24px 16px 16px; /* 왼쪽 패딩 줄임 */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  color: #fef7ff;
+  font-family: 'Roboto', 'Noto Sans KR', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  white-space: nowrap;
+  transition: background-color 0.2s;
+  box-shadow: 0px 4px 8px 3px rgba(0, 0, 0, 0.15),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.3);
+  width: fit-content; /* 텍스트 길이에 맞게 조정 */
+}
+
+.menuItem:hover {
+  background: #2d1f3b;
+}
+
+.menuItem:active {
+  background: #1a1425;
+}
+
+.menuItem svg {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+}
+
+.menuItem span {
+  font-variation-settings: 'wdth' 100;
+}
+
+.menuButton {
+  background: #1d192b;
+  border: none;
+  border-radius: 28px; /* Figma: extra-large corner (28px) */
+  width: 56px;
+  height: 56px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f7f2fa;
+  box-shadow: 0px 4px 8px 3px rgba(0, 0, 0, 0.15),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.2s;
+  flex-shrink: 0;
+}
+
+.menuButton:hover {
+  background: #2d1f3b;
+}
+
+.menuButton:active {
+  background: #1a1425;
+}
+
+.inputForm {
+  display: flex;
+  align-items: center;
+  width: 556px; /* Figma: 입력 필드 너비 556px 고정 */
+  background: #e8def8;
+  border-radius: 30px;
+  height: 76px;
+  padding: 0 16px;
+  gap: 12px;
+  flex-shrink: 0; /* 줄어들지 않도록 */
+}
+
+.input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-family: 'Roboto', 'Noto Sans KR', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: #000;
+  outline: none;
+}
+
+.input::placeholder {
+  color: #000;
+  opacity: 0.6;
+}
+
+.input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.sendButton {
+  background: transparent;
+  border: none;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #49454f;
+  border-radius: 100px;
+  transition: background-color 0.2s;
+}
+
+.sendButton:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.sendButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.addItemInputContainer {
+  position: absolute;
+  bottom: calc(100% + 107px); /* Figma: 채팅 입력 필드(793px)에서 리스트 입력 필드(686px)까지: 793 - 686 = 107px */
+  /* Figma 좌표 기준:
+     - 채팅 입력 필드: x=442, width=556px (중앙: 442 + 278 = 720px)
+     - 닫기 버튼: x=481 (채팅 입력 필드 왼쪽 끝에서 39px 오른쪽)
+     - 입력 필드: x=544 (채팅 입력 필드 왼쪽 끝에서 102px 오른쪽)
+     채팅 입력 필드가 중앙 정렬이므로: left = 50% - 278px + 39px */
+  left: calc(50% - 239px); /* 50% - 278px + 39px = 50% - 239px */
+  display: flex;
+  align-items: center;
+  gap: 63px; /* Figma: 닫기 버튼(481px)과 입력 필드(544px) 사이: 544 - 481 = 63px */
+  z-index: 999;
+}
+
+.closeButton {
+  background: transparent;
+  border: none;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #49454f;
+  border-radius: 100px;
+  transition: background-color 0.2s;
+  flex-shrink: 0;
+}
+
+.closeButton:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.addItemForm {
+  display: flex;
+  align-items: center;
+  background: #e8def8;
+  border-radius: 30px;
+  height: 46px;
+  padding: 0 16px;
+  gap: 12px;
+  width: 339px;
+  flex-shrink: 0;
+}
+
+.addItemInput {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-family: 'Roboto', 'Noto Sans KR', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: #000;
+  outline: none;
+}
+
+.addItemInput::placeholder {
+  color: #000;
+  opacity: 0.6;
+}
+
+.addItemSendButton {
+  background: transparent;
+  border: none;
+  width: 29px;
+  height: 29px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #49454f;
+  border-radius: 100px;
+  transition: background-color 0.2s;
+  flex-shrink: 0;
+}
+
+.addItemSendButton:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.addItemSendButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+
