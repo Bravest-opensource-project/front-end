@@ -47,19 +47,30 @@ function ChatInput({ onSendMessage, disabled = false, onViewList, onDeleteList }
     }
 
     try {
-      // TODO: 백엔드 API 엔드포인트를 실제 URL로 변경하세요
-      const response = await fetch("/api/list-items", {
+      // localStorage에서 roomId와 anonymousProfileId 가져오기
+      const roomId = localStorage.getItem('roomId');
+      const registeredBy = localStorage.getItem('anonymousProfileId');
+
+      if (!roomId || !registeredBy) {
+        throw new Error("채팅방 정보를 찾을 수 없습니다. 다시 참가해주세요.");
+      }
+
+      const response = await fetch("/api/v1/chatlists", {
         method: "POST",
         headers: {
+          "accept": "*/*",
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          item: listItem.trim(),
+          roomId: parseInt(roomId, 10),
+          content: listItem.trim(),
+          registeredBy: parseInt(registeredBy, 10),
         }),
       });
 
       if (!response.ok) {
-        throw new Error("리스트 원소 추가에 실패했습니다.");
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || "리스트 원소 추가에 실패했습니다.");
       }
 
       // 성공 시 입력 필드 닫기

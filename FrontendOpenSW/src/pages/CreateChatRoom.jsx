@@ -21,33 +21,37 @@ function CreateChatRoom() {
     setIsLoading(true);
 
     try {
-      // TODO: 백엔드 API 엔드포인트를 실제 URL로 변경하세요
-      const response = await fetch("/api/chat-rooms", {
+      const response = await fetch("/api/rooms", {
         method: "POST",
         headers: {
+          "accept": "*/*",
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          description: description.trim(),
-          validityPeriod: parseInt(validityPeriod.trim(), 10), // 분 단위
+          title: description.trim(),
         }),
       });
 
       if (!response.ok) {
-        throw new Error("채팅방 생성에 실패했습니다.");
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || "채팅방 생성에 실패했습니다.");
       }
 
-      const data = await response.json();
+      const responseData = await response.json();
       
-      // 백엔드에서 입장코드를 받아옴
-      // 응답 형식 예시: { entryCode: "ABC123", ... }
-      const entryCode = data.entryCode || data.code || data.chatRoomCode;
+      // 응답 형식: { isSuccess, code, message, data: { id, roomCode, title, createdAt }, success }
+      if (!responseData.isSuccess || !responseData.data) {
+        throw new Error(responseData.message || "채팅방 생성에 실패했습니다.");
+      }
+
+      const roomCode = responseData.data.roomCode;
       
-      if (!entryCode) {
+      if (!roomCode) {
+        console.warn("API 응답 데이터:", responseData);
         throw new Error("입장코드를 받지 못했습니다.");
       }
 
-      setChatRoomCode(entryCode);
+      setChatRoomCode(roomCode);
       setShowPopup(true);
     } catch (error) {
       console.error("채팅방 생성 오류:", error);
