@@ -10,28 +10,41 @@ function DeleteListView({ entryCode, onClose, onDelete }) {
 
   useEffect(() => {
     fetchListItems();
-  }, [entryCode]);
+  }, []);
 
   const fetchListItems = async () => {
     setIsLoading(true);
     setError(null);
 
     try {
-      // TODO: 백엔드 API 엔드포인트를 실제 URL로 변경하세요
-      const response = await fetch(`/api/list-items?entryCode=${encodeURIComponent(entryCode)}`, {
+      // localStorage에서 roomId 가져오기 (익명 프로필 응답의 data.roomId)
+      const roomId = localStorage.getItem('anonymousProfileRoomId') || localStorage.getItem('roomId');
+
+      if (!roomId) {
+        throw new Error("채팅방 정보를 찾을 수 없습니다.");
+      }
+
+      const response = await fetch(`/api/chatlists/room/${roomId}`, {
         method: "GET",
         headers: {
+          "accept": "*/*",
           "Content-Type": "application/json",
         },
       });
 
       if (!response.ok) {
-        throw new Error("리스트를 불러오는데 실패했습니다.");
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || "리스트를 불러오는데 실패했습니다.");
       }
 
-      const data = await response.json();
-      // 백엔드 응답 형식에 맞게 조정 (예: data.items 또는 data)
-      const items = data.items || data || [];
+      const responseData = await response.json();
+      
+      // 응답 형식: { isSuccess, code, message, data: [...], success }
+      if (!responseData.isSuccess || !responseData.data) {
+        throw new Error(responseData.message || "리스트를 불러오는데 실패했습니다.");
+      }
+
+      const items = Array.isArray(responseData.data) ? responseData.data : [];
       setListItems(items);
     } catch (error) {
       console.error("리스트 불러오기 오류:", error);
@@ -62,34 +75,44 @@ function DeleteListView({ entryCode, onClose, onDelete }) {
     setIsSubmitting(true);
 
     try {
-      // 선택된 항목들의 ID 또는 인덱스를 백엔드로 전송
+      // 선택된 항목들의 ID 가져오기 (리스트 보기 응답의 data.id)
       const selectedIndices = Array.from(selectedItems);
       const itemsToDelete = selectedIndices.map((index) => {
         const item = listItems[index];
-        return typeof item === "string" ? item : item.id || item.item || item.text || item.name;
-      });
+        // 리스트 보기 응답의 data.id 사용
+        return item.id;
+      }).filter(id => id !== undefined && id !== null);
 
-      // TODO: 백엔드 API 엔드포인트를 실제 URL로 변경하세요
-      const response = await fetch("/api/list-items/delete", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          entryCode,
-          items: itemsToDelete,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("리스트 원소 삭제에 실패했습니다.");
+      if (itemsToDelete.length === 0) {
+        throw new Error("삭제할 항목의 ID를 찾을 수 없습니다.");
       }
 
-      // 성공 시 콜백 호출 및 닫기
+      // 각 아이템을 DELETE /api/chatlists/{id}로 삭제
+      const deletePromises = itemsToDelete.map((id) =>
+        fetch(`/api/chatlists/${id}`, {
+          method: "DELETE",
+          headers: {
+            "accept": "*/*",
+            "Content-Type": "application/json",
+          },
+        })
+      );
+
+      const results = await Promise.all(deletePromises);
+      
+      // 모든 삭제 요청이 성공했는지 확인
+      const failedResults = results.filter((response) => !response.ok);
+      if (failedResults.length > 0) {
+        throw new Error("일부 항목 삭제에 실패했습니다.");
+      }
+
+      // 성공 시 리스트 새로고침 및 콜백 호출
+      await fetchListItems();
       if (onDelete) {
         onDelete();
       }
-      onClose();
+      // 선택 초기화
+      setSelectedItems(new Set());
     } catch (error) {
       console.error("리스트 원소 삭제 오류:", error);
       alert(error.message || "리스트 원소 삭제에 실패했습니다. 다시 시도해주세요.");
@@ -163,7 +186,9 @@ function DeleteListView({ entryCode, onClose, onDelete }) {
           ) : (
             listItems.map((item, index) => {
               const isSelected = selectedItems.has(index);
-              const itemText = typeof item === "string" ? item : item.text || item.item || item.name;
+              const itemText = typeof item === "string" 
+                ? item 
+                : item.content || item.text || item.item || item.name || JSON.stringify(item);
               
               return (
                 <div

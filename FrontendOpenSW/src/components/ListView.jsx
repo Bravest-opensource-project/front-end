@@ -8,28 +8,50 @@ function ListView({ entryCode, onClose }) {
 
   useEffect(() => {
     fetchListItems();
-  }, [entryCode]);
+  }, []);
 
   const fetchListItems = async () => {
     setIsLoading(true);
     setError(null);
 
     try {
-      // TODO: 백엔드 API 엔드포인트를 실제 URL로 변경하세요
-      const response = await fetch(`/api/list-items?entryCode=${encodeURIComponent(entryCode)}`, {
+      // localStorage에서 roomId 가져오기 (익명 프로필 응답의 data.roomId)
+      const roomId = localStorage.getItem('anonymousProfileRoomId') || localStorage.getItem('roomId');
+
+      if (!roomId) {
+        throw new Error("채팅방 정보를 찾을 수 없습니다.");
+      }
+
+      const response = await fetch(`/api/chatlists/room/${roomId}`, {
         method: "GET",
         headers: {
+          "accept": "*/*",
           "Content-Type": "application/json",
         },
       });
 
       if (!response.ok) {
-        throw new Error("리스트를 불러오는데 실패했습니다.");
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || "리스트를 불러오는데 실패했습니다.");
       }
 
-      const data = await response.json();
-      // 백엔드 응답 형식에 맞게 조정 (예: data.items 또는 data)
-      setListItems(data.items || data || []);
+      const responseData = await response.json();
+      
+      console.log("리스트 응답 데이터:", responseData);
+      
+      // 응답 형식: { isSuccess, code, message, data: [...], success }
+      if (!responseData.isSuccess || !responseData.data) {
+        throw new Error(responseData.message || "리스트를 불러오는데 실패했습니다.");
+      }
+
+      const items = Array.isArray(responseData.data) ? responseData.data : [];
+      
+      console.log("파싱된 리스트 아이템:", items);
+      
+      // 응답 결과를 localStorage에 저장 (나중에 사용)
+      localStorage.setItem('chatlists', JSON.stringify(items));
+      
+      setListItems(items);
     } catch (error) {
       console.error("리스트 불러오기 오류:", error);
       setError(error.message || "리스트를 불러오는데 실패했습니다.");
@@ -105,7 +127,9 @@ function ListView({ entryCode, onClose }) {
               <div key={index} className={styles.listItem}>
                 <div className={styles.listItemContent}>
                   <p className={styles.listItemText}>
-                    {typeof item === "string" ? item : item.text || item.item || item.name}
+                    {typeof item === "string" 
+                      ? item 
+                      : item.content || item.text || item.item || item.name || JSON.stringify(item)}
                   </p>
                 </div>
               </div>
