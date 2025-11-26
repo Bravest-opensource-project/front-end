@@ -47,15 +47,17 @@ function ChatInput({ onSendMessage, disabled = false, onViewList, onDeleteList }
     }
 
     try {
-      // localStorage에서 roomId와 anonymousProfileId 가져오기
-      const roomId = localStorage.getItem('roomId');
+      // localStorage에서 값 가져오기
+      // roomId: anonymous-profiles 응답의 data.roomId
+      // registeredBy: anonymous-profiles 응답의 data.id
+      const roomId = localStorage.getItem('anonymousProfileRoomId') || localStorage.getItem('roomId');
       const registeredBy = localStorage.getItem('anonymousProfileId');
 
       if (!roomId || !registeredBy) {
         throw new Error("채팅방 정보를 찾을 수 없습니다. 다시 참가해주세요.");
       }
 
-      const response = await fetch("/api/v1/chatlists", {
+      const response = await fetch("/api/chatlists", {
         method: "POST",
         headers: {
           "accept": "*/*",

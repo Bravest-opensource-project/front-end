@@ -77,14 +77,18 @@ function JoinChatRoom() {
       }
 
       const anonymousProfileId = profileData.data.id;
+      const profileRoomId = profileData.data.roomId; // anonymous-profiles 응답의 roomId
       
       if (!anonymousProfileId) {
         console.warn("익명 프로필 생성 응답 데이터:", profileData);
         throw new Error("익명 프로필 ID를 받지 못했습니다.");
       }
 
-      // anonymousProfileId를 localStorage에 저장 (나중에 chatlists API의 registeredBy로 사용)
+      // anonymousProfileId와 roomId를 localStorage에 저장
+      // registeredBy: data.id (anonymousProfileId)
+      // roomId: data.roomId (익명 프로필 응답의 roomId)
       localStorage.setItem('anonymousProfileId', anonymousProfileId.toString());
+      localStorage.setItem('anonymousProfileRoomId', profileRoomId ? profileRoomId.toString() : roomId.toString());
       localStorage.setItem('roomId', roomId.toString());
 
       // 성공 시 채팅방으로 이동
