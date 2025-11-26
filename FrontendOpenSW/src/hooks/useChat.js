@@ -5,8 +5,8 @@ function useChat(entryCode, nickname) {
   const [messages, setMessages] = useState([]);
   const [isConnected, setIsConnected] = useState(false);
   // UI 확인용: 임시 더미 데이터 (소켓 연결 전에도 UI 확인 가능)
-  const [timeRemaining, setTimeRemaining] = useState(3600); // 남은 시간 (초) - 1시간
-  const [totalTime, setTotalTime] = useState(3600); // 총 시간 (초) - 1시간
+  const [timeRemaining, setTimeRemaining] = useState(60); // 남은 시간 (초) - 1분
+  const [totalTime, setTotalTime] = useState(60); // 총 시간 (초) - 1분
   const [roomStatus, setRoomStatus] = useState("active"); // active, voting, closed
   const messagesEndRef = useRef(null);
 
