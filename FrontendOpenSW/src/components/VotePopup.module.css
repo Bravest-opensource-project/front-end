@@ -1,0 +1,165 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.popup {
+  background: #e8def8;
+  border-radius: 28px;
+  width: 90%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px;
+  padding-bottom: 16px;
+}
+
+.title {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 32px;
+  color: #1d1b20;
+  margin: 0;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1d1b20;
+}
+
+.closeButton:hover {
+  opacity: 0.7;
+}
+
+.content {
+  padding: 0 24px 24px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.emptyMessage {
+  text-align: center;
+  color: #49454f;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  padding: 20px;
+}
+
+.optionsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.optionItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: white;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 2px solid transparent;
+}
+
+.optionItem:hover {
+  background: #f5f5f5;
+}
+
+.optionItemSelected {
+  border-color: #6750a4;
+  background: #f3edf7;
+}
+
+.optionContent {
+  flex: 1;
+}
+
+.optionText {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  color: #1d1b20;
+  margin: 0;
+}
+
+.radioContainer {
+  margin-left: 12px;
+}
+
+.radio {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #79747e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.radioSelected {
+  border-color: #6750a4;
+  background: #6750a4;
+}
+
+.radioInner {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+}
+
+.footer {
+  padding: 16px 24px 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.submitButton {
+  background: #6750a4;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 24px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 100px;
+}
+
+.submitButton:hover:not(:disabled) {
+  background: #5a4190;
+}
+
+.submitButton:disabled {
+  background: #cac4d0;
+  cursor: not-allowed;
+}
+
