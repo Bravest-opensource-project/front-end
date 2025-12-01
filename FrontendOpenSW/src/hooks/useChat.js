@@ -40,12 +40,20 @@ function useChat(entryCode, nickname) {
   // 소켓 연결
   useEffect(() => {
     if (entryCode && nickname) {
-      // UI 확인용: 소켓 연결 시도 (실패해도 UI는 표시됨)
+      // localStorage에서 roomId와 anonymousId 확인
+      const roomId = localStorage.getItem('roomId');
+      const anonymousId = localStorage.getItem('anonymousProfileId');
+      
+      if (!roomId || !anonymousId) {
+        console.log("채팅방 정보 또는 익명 프로필 ID가 없습니다. 채팅방 참가를 먼저 완료해주세요.");
+        return;
+      }
+
+      // STOMP 연결 시도
       try {
-        socketService.connect(entryCode, nickname);
+        socketService.connect();
       } catch (error) {
-        console.log("소켓 연결 실패 (UI 확인용):", error);
-        // UI 확인을 위해 연결 실패해도 계속 진행
+        console.error("소켓 연결 실패:", error);
       }
 
       // 연결 상태 리스너
@@ -55,11 +63,20 @@ function useChat(entryCode, nickname) {
 
       // 메시지 수신 리스너 (다른 사람이 보낸 메시지)
       const handleMessage = (data) => {
+        // 연결 이벤트는 제외
+        if (data.type === "connect") {
+          return;
+        }
+
+        // STOMP 응답 형식: { senderName, content, createdAt }
         const message = {
-          content: data.content || data.message || data,
+          content: data.content || "",
           isOwn: false, // 소켓에서 받은 메시지는 다른 사람이 보낸 것
         };
-        setMessages((prev) => [...prev, message]);
+        
+        if (message.content) {
+          setMessages((prev) => [...prev, message]);
+        }
       };
 
       // 시간 업데이트 리스너
