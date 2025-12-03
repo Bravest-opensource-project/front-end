@@ -1,16 +1,13 @@
-# React + Vite
+## 🌿 Branch 전략 & 네이밍 규칙
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### 🔹 Branch 종류
 
-Currently, two official plugins are available:
+| Branch      | 역할             | 설명                                                                               |
+| ----------- | ---------------- | ---------------------------------------------------------------------------------- |
+| **main**    | 배포용 브랜치    | 실제 서비스에 배포 가능한 안정 버전만 존재합니다. 개발자는 직접 작업하지 않습니다. |
+| **develop** | 개발 통합 브랜치 | 기능 개발 브랜치들을 병합하는 브랜치입니다. 테스트 완료 후 `main`로 병합합니다.    |
+| **feature** | 기능 개발 브랜치 | 새 기능 개발 시 `develop`에서 분기하여 작업 후 `develop`에 병합합니다.             |
+| **release** | 배포 준비 브랜치 | 배포 전 테스트, 문서, 버그 수정 등을 진행하며 새로운 기능 추가는 하지 않습니다.    |
+| **hotfix**  | 긴급 수정 브랜치 | 배포 후 발생한 버그를 수정할 때 `main`에서 분기 후 `main`, `develop`에 병합합니다. |
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+#npm i react-router-dom 설치했음
