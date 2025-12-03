@@ -63,19 +63,37 @@ function useChat(entryCode, nickname) {
 
       // 메시지 수신 리스너 (다른 사람이 보낸 메시지)
       const handleMessage = (data) => {
+        console.log("useChat handleMessage 호출:", data);
+        
         // 연결 이벤트는 제외
         if (data.type === "connect") {
+          console.log("연결 이벤트이므로 무시");
           return;
         }
 
         // STOMP 응답 형식: { senderName, content, createdAt }
+        console.log("받은 데이터:", data);
+        console.log("data.content:", data.content);
+        console.log("data.messageContent:", data.messageContent);
+        
+        const content = data.content || data.messageContent || "";
         const message = {
-          content: data.content || "",
+          content: content,
           isOwn: false, // 소켓에서 받은 메시지는 다른 사람이 보낸 것
         };
         
-        if (message.content) {
-          setMessages((prev) => [...prev, message]);
+        console.log("생성된 message 객체:", message);
+        
+        if (message.content && message.content.trim() !== "") {
+          console.log("메시지 추가:", message);
+          setMessages((prev) => {
+            console.log("이전 메시지 개수:", prev.length);
+            const newMessages = [...prev, message];
+            console.log("새 메시지 개수:", newMessages.length);
+            return newMessages;
+          });
+        } else {
+          console.warn("메시지 content가 비어있어서 추가하지 않음:", message);
         }
       };
 
